@@ -1,8 +1,10 @@
 package org.launchcode.techjobs.console;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
+import java.util.Map.Entry;
+
+
+//import static org.launchcode.techjobs.console.JobData.allJobs;
 
 /**
  * Created by LaunchCode
@@ -11,7 +13,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -25,6 +27,13 @@ public class TechJobs {
         HashMap<String, String> actionChoices = new HashMap<>();
         actionChoices.put("search", "Search");
         actionChoices.put("list", "List");
+
+//        HashMap<String, String> jobFields = new HashMap<>();
+//        jobFields.put("name", "Name");
+//        jobFields.put("employer", "Employer");
+//        jobFields.put("location", "Location");
+//        jobFields.put("position type", "Position Type");
+//        jobFields.put("core competency", "Skill");
 
         System.out.println("Welcome to LaunchCode's TechJobs App!");
 
@@ -103,14 +112,33 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+//        System.out.println("printJobs is not implemented yet");
 
-        System.out.println("printJobs is not implemented yet");
+// Advanced For Loop
+        for (Map<String, String> aJob : someJobs) {
+            System.out.print("\n");
+//            System.out.print(aJob);
+
+// Nested For-each Loop
+            for (Map.Entry<String, String> entry : aJob.entrySet()) {
+                System.out.println(entry.getKey() + entry.getValue());
+            }
+        }
     }
 }
+
+
+//        if (someJobs.size() == 0) {
+//            System.out.println("No results found!");
+//            return;
+        //        }
+
+
+
