@@ -19,7 +19,7 @@ public class JobData {
     private static final String DATA_FILE = "resources/job_data.csv";
     private static Boolean isDataLoaded = false;
 
-    private static ArrayList<HashMap<String, String>> allJobs;
+    private static ArrayList<HashMap<String, String>> allJobsArrayList;
 
     /**
      * Fetch list of all values from loaded data,
@@ -35,7 +35,7 @@ public class JobData {
 
         ArrayList<String> values = new ArrayList<>();
 
-        for (HashMap<String, String> row : allJobs) {
+        for (HashMap<String, String> row : allJobsArrayList) {
             String aValue = row.get(field);
 
             if (!values.contains(aValue)) {
@@ -52,7 +52,7 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        return allJobsArrayList;
     }
 
     /**
@@ -73,7 +73,7 @@ public class JobData {
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
-        for (HashMap<String, String> row : allJobs) {
+        for (HashMap<String, String> row : allJobsArrayList) {
 
             String aValue = row.get(column);
 
@@ -84,6 +84,34 @@ public class JobData {
 
         return jobs;
     }
+
+    // NEW CODE, NEW METHOD ///////////
+
+
+    public static ArrayList<HashMap<String, String>> findByValue(String searchTerm) {
+
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        searchTerm = searchTerm.toLowerCase();
+
+        for (HashMap<String, String> singleJobMap : allJobsArrayList) {
+            for (String key : singleJobMap.keySet()) {
+                String aValue = singleJobMap.get(key);
+                aValue = aValue.toLowerCase();
+
+                if (aValue.toLowerCase().contains(searchTerm.toLowerCase())) {
+                    jobs.add(singleJobMap);
+                    break;
+                }
+            }
+        }
+
+        return jobs;
+    }
+
 
     /**
      * Read in data from a CSV file and store it in a list
@@ -104,7 +132,7 @@ public class JobData {
             Integer numberOfColumns = records.get(0).size();
             String[] headers = parser.getHeaderMap().keySet().toArray(new String[numberOfColumns]);
 
-            allJobs = new ArrayList<>();
+            allJobsArrayList = new ArrayList<>();
 
             // Put the records into a more friendly format
             for (CSVRecord record : records) {
@@ -114,7 +142,7 @@ public class JobData {
                     newJob.put(headerLabel, record.get(headerLabel));
                 }
 
-                allJobs.add(newJob);
+                allJobsArrayList.add(newJob);
             }
 
             // flag the data as loaded, so we don't do it twice
@@ -125,5 +153,7 @@ public class JobData {
             e.printStackTrace();
         }
     }
+
+
 
 }
